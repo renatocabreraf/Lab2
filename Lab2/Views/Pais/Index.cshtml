@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Lab2.Models.Pais>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+
+    @Html.ActionLink("Crear Nuevo        ", "Create")
+
+    @Html.ActionLink("Cargar Archivo     ", "Upload")
+
+    @using (Html.BeginForm())
+    {
+    <p>
+        Encontrar por nombre: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+    }
+
+
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PaisID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombrePais)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grupo)
+            </th>
+           
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaisID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombrePais)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grupo)
+                </td>
+               
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PaisID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.PaisID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PaisID }) |
+
+                </td>
+
+            </tr>
+
+        }
