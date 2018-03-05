@@ -37,9 +37,24 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TDALibrary">
+      <HintPath>..\TDALibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABinBusqueda.cs" />
+    <Compile Include="ArbolAVLBase.cs" />
+    <Compile Include="ArbolBinarioBase.cs" />
+    <Compile Include="ColaBase.cs" />
+    <Compile Include="Figuras.cs" />
+    <Compile Include="IArbolAVL.cs" />
+    <Compile Include="IArbolBinario.cs" />
+    <Compile Include="ICola.cs" />
+    <Compile Include="ILista.cs" />
+    <Compile Include="IPila.cs" />
+    <Compile Include="ListaBase.cs" />
     <Compile Include="ListaOriginal.cs" />
+    <Compile Include="PilaBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

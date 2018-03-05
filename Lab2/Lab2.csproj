@@ -40,6 +40,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LumenWorks.Framework.IO, Version=3.9.1.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
+      <HintPath>..\packages\LumenWorksCsvReader.3.9.1\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -123,6 +127,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="TDALibrary">
+      <HintPath>..\TDALibrary.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -183,9 +190,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Models\BinaryTree.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PaisController.cs" />
+    <Compile Include="DBContext\DefaultConnection.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -230,14 +237,9 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-<<<<<<< HEAD:Lab2_RenatoCabrera_JoseHerrera/Lab2_RenatoCabrera_JoseHerrera/Lab2_RenatoCabrera_JoseHerrera.csproj
-    <Content Include="Views\Pais\Index.cshtml" />
-=======
-    <Content Include="Views\Pais\Create.cshtml" />
-    <Content Include="Views\Pais\Delete.cshtml" />
-    <Content Include="Views\Pais\Index.cshtml" />
     <Content Include="Views\Pais\Upload.cshtml" />
->>>>>>> ef523eab3b2fa69dd4d62d82f3e84f57ae3286e5:Lab2/Lab2.csproj
+    <Content Include="Views\Pais\Index.cshtml" />
+    <Content Include="Views\Pais\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -249,6 +251,12 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TDA\TDA.csproj">
+      <Project>{4e3c5c77-2293-435c-8775-6b3426048aab}</Project>
+      <Name>TDA</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,34 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
 
 using Lab2.Models;
 using System.Net;
 using System.IO;
 using System.Data;
+using Lab2.DBContext;
+using LumenWorks.Framework.IO.Csv;
+
 namespace Lab2.Controllers
 {
-
+    
     public class PaisController : Controller
     {
 
         DefaultConnection db = DefaultConnection.getInstance;
-
+        string Lista;
 
         // GET: /Pais/
         public ActionResult Index(string searchString)
         {
-
-            var pais = from s in db.pais
-                           select s;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                pais = pais.Where(s => s.Apellido.Contains(searchString)
-                                       || s.Nombre.Contains(searchString));
-            }
-            return View(pais.ToList());
+            
+           
+            return View(db.pais.ToList());
         }
 
         //
@@ -40,7 +37,7 @@ namespace Lab2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Pais PaisBuscada = db.pais.FirstOrDefault(x => x.PaisID == id);
+            Pais PaisBuscada = db.pais.Buscar(id);
 
             if (PaisBuscada == null)
             {
@@ -60,13 +57,15 @@ namespace Lab2.Controllers
         //
         // POST: /Pais/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "PaisID,Nombre,Apellido,Edad,Salario,Club,Posicion")] Pais Pais)
+        public ActionResult Create([Bind(Include = "NombrePais,Grupo")] Pais Pais)
         {
             try
             {
                 // TODO: Add insert logic here
+                db.pais.FuncionCompararLlave = Comparar;
+                db.pais.FuncionObtenerLlave = ObtenerClave;
                 Pais.PaisID = ++db.IDActual;
-                db.pais.AddLast(Pais);
+                db.pais.Insertar(Pais);
                 return RedirectToAction("Index");
             }
             catch
@@ -84,7 +83,7 @@ namespace Lab2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Pais PaisBuscada = db.pais.FirstOrDefault(x => x.PaisID == id);
+            Pais PaisBuscada = db.pais.Buscar(id);
 
             if (PaisBuscada == null)
             {
@@ -98,11 +97,11 @@ namespace Lab2.Controllers
         // POST: /Pais/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PaisID,Nombre,Apellido,Edad,Salario,Club,Posicion")]Pais Pais)
+        public ActionResult Edit([Bind(Include = "NombrePais,Grupo")]Pais Pais)
         {
             try
             {
-                Pais PaisBuscada = db.pais.FirstOrDefault(x => x.PaisID == Pais.PaisID);
+                Pais PaisBuscada = db.pais.Buscar(Pais.PaisID);
                 if (PaisBuscada == null)
                 {
                     return HttpNotFound();
@@ -128,7 +127,7 @@ namespace Lab2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Pais PaisBuscada = db.pais.FirstOrDefault(x => x.PaisID == id);
+            Pais PaisBuscada = db.pais.Buscar(id);
 
             if (PaisBuscada == null)
             {
@@ -151,14 +150,14 @@ namespace Lab2.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                Pais PaisBuscada = db.pais.FirstOrDefault(x => x.PaisID == id);
+                Pais PaisBuscada = db.pais.Buscar( id);
 
                 if (PaisBuscada == null)
                 {
                     return HttpNotFound();
                 }
 
-                db.pais.Remove(PaisBuscada);
+                db.pais.Eliminar(id);
                 db.IDActual--;
                 return RedirectToAction("Index");
             }
@@ -214,7 +213,7 @@ namespace Lab2.Controllers
 
                             if (!string.IsNullOrEmpty(row))
                             {
-                                db.pais.AddLast(new Pais
+                               /* db.pais.AddLast(new Pais
                                 {
                                     PaisID = ++db.IDActual,
                                     Club = row.Split(',')[0],
@@ -224,7 +223,7 @@ namespace Lab2.Controllers
                                     Salario = row.Split(',')[4],
 
                                 });
-
+                                */
                             }
 
                         }
@@ -243,15 +242,23 @@ namespace Lab2.Controllers
             }
             return View();
         }
-
-        public ActionResult Buscador(String Nombre)
+        int Comparar(int Clave1, int Clave2)
         {
-            var busqueda = from s in db.pais select s;
-            if (!String.IsNullOrEmpty(Nombre))
-            {
-                busqueda = busqueda.Where(j => j.Nombre.Contains(Nombre));
-            }
-            return View(busqueda);
+            if (Clave1 > Clave2)
+                return 1;
+            else if (Clave1 < Clave2)
+                return -1;
+            else
+                return 0;
+        }
+        int ObtenerClave(Pais dato)
+        {
+            return dato.PaisID;
+        }
+        
+        private void ObtenerListado(Pais miPais)
+        {
+            Lista = Lista + " " + miPais.PaisID + " : " + miPais.PaisID + " |";
         }
     }
 }
