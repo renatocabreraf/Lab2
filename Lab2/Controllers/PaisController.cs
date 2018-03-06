@@ -20,7 +20,7 @@ namespace Lab2.Controllers
     
     public class PaisController : Controller
     {
-
+        //no logramos terminar la cargad e archuivos
         DefaultConnection db = DefaultConnection.getInstance;
         string Lista;
 
