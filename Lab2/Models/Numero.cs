@@ -9,4 +9,5 @@ namespace Lab2.Models
     {
         public int numero { get; set; }
     }
+    
 }
