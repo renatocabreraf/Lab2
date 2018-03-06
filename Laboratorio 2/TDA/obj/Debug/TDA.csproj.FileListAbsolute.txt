@@ -1,0 +1,5 @@
+C:\Users\Renato\Documents\GitHub\Lab1\Lab1Ejemplo-master\TDA\bin\Debug\TDA.dll
+C:\Users\Renato\Documents\GitHub\Lab1\Lab1Ejemplo-master\TDA\bin\Debug\TDA.pdb
+C:\Users\Renato\Documents\GitHub\Lab1\Lab1Ejemplo-master\TDA\obj\Debug\TDA.csprojResolveAssemblyReference.cache
+C:\Users\Renato\Documents\GitHub\Lab1\Lab1Ejemplo-master\TDA\obj\Debug\TDA.dll
+C:\Users\Renato\Documents\GitHub\Lab1\Lab1Ejemplo-master\TDA\obj\Debug\TDA.pdb
