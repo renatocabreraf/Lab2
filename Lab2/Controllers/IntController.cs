@@ -181,21 +181,8 @@ namespace Lab2.Controllers
                     if (upload.FileName.EndsWith(".json"))
                     {
                         Stream stream = upload.InputStream;
-                        List<ABinBusqueda<Pais, int>> jsonlist = new List<ABinBusqueda<Pais, int>>();
-
-                        string path = Server.MapPath("~/Uploads/");
-                        if (!Directory.Exists(path))
-                        {
-                            Directory.CreateDirectory(path);
-                        }
-                        filePath = path + Path.GetFileName(upload.FileName);
-                        string extension = Path.GetExtension(upload.FileName);
-                        upload.SaveAs(filePath);
-
-                        string json = System.IO.File.ReadAllText(filePath);
-                        ABinBusqueda<Pais, int> nuevoPais = JsonConvert.DeserializeObject<ABinBusqueda<Pais, int>>(json);
-                        jsonlist.Add(nuevoPais);
-                        return View(jsonlist);
+                        JsonReader<ABinBusqueda<Numero, int>> reader = new JsonReader<TDA.ABinBusqueda<Numero, int>>();
+                        Arbolito = reader.Data(stream);
                     }
                     else
                     {
@@ -233,5 +220,31 @@ namespace Lab2.Controllers
         {
             Lista = Lista + " " + miPais.numero + " : " + miPais.numero + " |";
         }
+        public class JsonReader<T>
+        {
+            /// <summary>
+            /// Lector de Archivos tipo Json
+            /// </summary>
+            /// <param name="rutaOrigen">Ruta de archivos</param>
+            /// <returns></returns>
+            public ABinBusqueda<Numero, int> Data(Stream rutaOrigen)
+            {
+                try
+                {
+                    ABinBusqueda<Numero, int> data;
+                    StreamReader reader = new StreamReader(rutaOrigen);
+                    string temp = reader.ReadToEnd();
+                    data = JsonConvert.DeserializeObject<ABinBusqueda<Numero, int>>(temp);
+                    reader.Close();
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+        }
     }
+    
 }

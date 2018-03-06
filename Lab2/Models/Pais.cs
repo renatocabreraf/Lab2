@@ -10,7 +10,7 @@ namespace Lab2.Models
     {
         public int PaisID { get; set; }
 
-        public string NombrePais { get; set; }
+        public string nombre { get; set; }
 
         public string Grupo { get; set; } 
     }

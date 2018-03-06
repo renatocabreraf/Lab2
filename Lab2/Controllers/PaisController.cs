@@ -111,7 +111,7 @@ namespace Lab2.Controllers
                 {
                     return HttpNotFound();
                 }
-                PaisBuscada.NombrePais = Pais.NombrePais;
+                PaisBuscada.nombre = Pais.nombre;
                 PaisBuscada.Grupo = Pais.Grupo;
                
 
@@ -197,21 +197,8 @@ namespace Lab2.Controllers
                     if (upload.FileName.EndsWith(".json"))
                     {
                         Stream stream = upload.InputStream;
-                        List<ABinBusqueda<Pais, int>> jsonlist = new List<ABinBusqueda<Pais, int>>();
-                       
-                        string path = Server.MapPath("~/Uploads/");
-                        if (!Directory.Exists(path))
-                        {
-                            Directory.CreateDirectory(path);
-                        }
-                        filePath = path + Path.GetFileName(upload.FileName);
-                        string extension = Path.GetExtension(upload.FileName);
-                        upload.SaveAs(filePath);
-
-                        string json = System.IO.File.ReadAllText(filePath);
-                        ABinBusqueda<Pais,int> nuevoPais = JsonConvert.DeserializeObject<ABinBusqueda<Pais, int>>(json);
-                        jsonlist.Add(nuevoPais);
-                        return View(jsonlist);
+                        JsonReader<ABinBusqueda<Numero, int>> reader = new JsonReader<TDA.ABinBusqueda<Numero, int>>();
+                        db.pais = reader.Data(stream);
                     }
                     else
                     {
@@ -225,7 +212,8 @@ namespace Lab2.Controllers
                 }
             }
             return View();
-        }
+ 
+    }
         int Comparar(string Clave1, string Clave2)
         {
             return string.CompareOrdinal(Clave1, Clave2);
@@ -248,5 +236,31 @@ namespace Lab2.Controllers
         {
             Lista = Lista + " " + miPais.PaisID + " : " + miPais.PaisID + " |";
         }
+        public class JsonReader<T>
+        {
+            /// <summary>
+            /// Lector de Archivos tipo Json
+            /// </summary>
+            /// <param name="rutaOrigen">Ruta de archivos</param>
+            /// <returns></returns>
+            public ABinBusqueda<Pais, int> Data(Stream rutaOrigen)
+            {
+                try
+                {
+                    ABinBusqueda<Pais, int> data;
+                    StreamReader reader = new StreamReader(rutaOrigen);
+                    string temp = reader.ReadToEnd();
+                    data = JsonConvert.DeserializeObject<ABinBusqueda<Pais, int>>(temp);
+                    reader.Close();
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+
+        }
     }
+
 }
