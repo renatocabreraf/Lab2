@@ -548,6 +548,7 @@ namespace TDA
         }
         public List<T> ToList()
         {
+           
             List<T> nuevaLista = new List<T>();
             for (int i = 0; i < miLista.Longitud; i++)
             {

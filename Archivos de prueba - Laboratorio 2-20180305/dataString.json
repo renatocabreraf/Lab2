@@ -1,0 +1,41 @@
+{
+  "valor": "Corea del Sur",
+  "izquierdo": {
+    "valor": "Argentina",
+    "izquierdo": {
+      "valor": "Alemania",
+      "izquierdo": null,
+      "derecho": null
+    },
+    "derecho": {
+      "valor": "Brasil",
+      "izquierdo": null,
+      "derecho": null
+    }
+  },
+  "derecho": {
+    "valor": "España",
+    "izquierdo": {
+      "valor": "Costa Rica",
+      "izquierdo": null,
+      "derecho": null
+    },
+    "derecho": {
+      "valor": "Francia",
+      "izquierdo": {
+        "valor": "Estados Unidos",
+        "izquierdo": null,
+        "derecho": null
+      },
+      "derecho": {
+        "valor": "Senegal",
+        "izquierdo": {
+          "valor": "Honduras",
+          "izquierdo": null,
+          "derecho": null
+        },
+        "derecho": null
+      }
+    }
+  }
+}

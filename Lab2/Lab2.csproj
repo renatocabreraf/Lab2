@@ -191,11 +191,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IntController.cs" />
     <Compile Include="Controllers\PaisController.cs" />
     <Compile Include="DBContext\DefaultConnection.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Numero.cs" />
     <Compile Include="Models\Pais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -240,6 +242,15 @@
     <Content Include="Views\Pais\Upload.cshtml" />
     <Content Include="Views\Pais\Index.cshtml" />
     <Content Include="Views\Pais\Create.cshtml" />
+    <Content Include="Views\Int\Index.cshtml" />
+    <Content Include="Views\Int\Details.cshtml" />
+    <Content Include="Views\Int\Create.cshtml" />
+    <Content Include="Views\Int\Edit.cshtml" />
+    <Content Include="Views\Int\Delete.cshtml" />
+    <Content Include="Views\Pais\Details.cshtml" />
+    <Content Include="Views\Pais\Edit.cshtml" />
+    <Content Include="Views\Pais\Delete.cshtml" />
+    <Content Include="Views\Int\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

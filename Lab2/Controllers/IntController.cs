@@ -1,39 +1,27 @@
-﻿using System;
+﻿using Lab2.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-
-
-using Lab2.Models;
-using System.Net;
-using System.IO;
-using System.Data;
-using Lab2.DBContext;
-using LumenWorks.Framework.IO.Csv;
-using System.Collections.Generic;
-using Newtonsoft.Json;
 using TDA;
-using TDALibrary;
 
 namespace Lab2.Controllers
 {
-    
-    public class PaisController : Controller
+    public class IntController : Controller
     {
-
-        DefaultConnection db = DefaultConnection.getInstance;
+        public ABinBusqueda<Numero, int> Arbolito = new ABinBusqueda<Numero, int>();
         string Lista;
-
-        // GET: /Pais/
-        public ActionResult Index(string searchString)
+        // GET: Int
+        public ActionResult Index()
         {
-
-            
-            return View(db.pais.ToList());
+            return View(Arbolito.ToList());
         }
 
-        //
-        // GET: /Pais/Details/5
+        // GET: Int/Details/5
         public ActionResult Details(int id)
         {
             if (id == null)
@@ -41,36 +29,34 @@ namespace Lab2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Pais PaisBuscada = db.pais.Buscar(id);
+            Numero NumeroBuscado = Arbolito.Buscar(id);
 
-            if (PaisBuscada == null)
+            if (NumeroBuscado == null)
             {
                 return HttpNotFound();
             }
 
-            return View(PaisBuscada);
+            return View(NumeroBuscado);
         }
 
-        //
-        // GET: /Pais/Create
+        // GET: Int/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        //
-        // POST: /Pais/Create
+        // POST: Int/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "NombrePais,Grupo")] Pais Pais)
+        public ActionResult Create([Bind(Include = "numero")] Numero numero)
         {
             try
             {
                 // TODO: Add insert logic here
-                db.pais.FuncionCompararLlave = Comparar;
-                db.pais.FuncionObtenerLlave = ObtenerClave;
-                Pais.PaisID = ++db.IDActual;
-                db.pais.Insertar(Pais);
-                db.pais.RecorrerPostOrder(ObtenerListado);
+                Arbolito.FuncionCompararLlave = Comparar;
+                Arbolito.FuncionObtenerLlave = ObtenerClave;
+
+                Arbolito.Insertar(numero);
+                Arbolito.RecorrerPostOrder(ObtenerListado);
                 return RedirectToAction("Index");
             }
             catch
@@ -79,8 +65,8 @@ namespace Lab2.Controllers
             }
         }
 
-        //
-        // GET: /Pais/Edit/5
+
+        // GET: Int/Edit/5
         public ActionResult Edit(int id)
         {
             if (id == null)
@@ -88,32 +74,30 @@ namespace Lab2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Pais PaisBuscada = db.pais.Buscar(id);
+            Numero NumeroBuscado = Arbolito.Buscar(id);
 
-            if (PaisBuscada == null)
+            if (NumeroBuscado == null)
             {
                 return HttpNotFound();
             }
 
-            return View(PaisBuscada);
+            return View(NumeroBuscado);
         }
 
-        //
-        // POST: /Pais/Edit/5
+        // POST: Int/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NombrePais,Grupo")]Pais Pais)
+        public ActionResult Edit([Bind(Include = "numero")]Numero numero)
         {
             try
             {
-                Pais PaisBuscada = db.pais.Buscar(Pais.PaisID);
-                if (PaisBuscada == null)
+                Numero NumeroBuscado = Arbolito.Buscar(numero.numero);
+                if (NumeroBuscado == null)
                 {
                     return HttpNotFound();
                 }
-                PaisBuscada.NombrePais = Pais.NombrePais;
-                PaisBuscada.Grupo = Pais.Grupo;
-               
+                NumeroBuscado.numero = numero.numero;
+                
+
 
                 return RedirectToAction("Index");
             }
@@ -123,8 +107,8 @@ namespace Lab2.Controllers
             }
         }
 
-        //
-        // GET: /Pais/Delete/5
+
+        // GET: Int/Delete/5
         public ActionResult Delete(int id)
         {
             if (id == null)
@@ -132,18 +116,17 @@ namespace Lab2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Pais PaisBuscada = db.pais.Buscar(id);
+            Numero NumeroBuscado = Arbolito.Buscar(id);
 
-            if (PaisBuscada == null)
+            if (NumeroBuscado == null)
             {
                 return HttpNotFound();
             }
 
-            return View(PaisBuscada);
+            return View(NumeroBuscado);
         }
 
-        //
-        // POST: /Pais/Delete/5
+        // POST: Int/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
@@ -155,15 +138,15 @@ namespace Lab2.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
-                Pais PaisBuscada = db.pais.Buscar( id);
+                Numero NumeroBuscado = Arbolito.Buscar(id);
 
-                if (PaisBuscada == null)
+                if (NumeroBuscado == null)
                 {
                     return HttpNotFound();
                 }
 
-                db.pais.Eliminar(id);
-                db.IDActual--;
+                Arbolito.Eliminar(id);
+                
                 return RedirectToAction("Index");
             }
             catch
@@ -171,6 +154,7 @@ namespace Lab2.Controllers
                 return View();
             }
         }
+
         /// <summary>
         /// GET UPLOAD
         /// </summary>
@@ -198,7 +182,7 @@ namespace Lab2.Controllers
                     {
                         Stream stream = upload.InputStream;
                         List<ABinBusqueda<Pais, int>> jsonlist = new List<ABinBusqueda<Pais, int>>();
-                       
+
                         string path = Server.MapPath("~/Uploads/");
                         if (!Directory.Exists(path))
                         {
@@ -209,7 +193,7 @@ namespace Lab2.Controllers
                         upload.SaveAs(filePath);
 
                         string json = System.IO.File.ReadAllText(filePath);
-                        ABinBusqueda<Pais,int> nuevoPais = JsonConvert.DeserializeObject<ABinBusqueda<Pais, int>>(json);
+                        ABinBusqueda<Pais, int> nuevoPais = JsonConvert.DeserializeObject<ABinBusqueda<Pais, int>>(json);
                         jsonlist.Add(nuevoPais);
                         return View(jsonlist);
                     }
@@ -226,6 +210,7 @@ namespace Lab2.Controllers
             }
             return View();
         }
+
         int Comparar(string Clave1, string Clave2)
         {
             return string.CompareOrdinal(Clave1, Clave2);
@@ -239,14 +224,14 @@ namespace Lab2.Controllers
             else
                 return 0;
         }
-        int ObtenerClave(Pais dato)
+        int ObtenerClave(Numero dato)
         {
-            return dato.PaisID;
+            return dato.numero;
         }
-        
-        private void ObtenerListado(Pais miPais)
+
+        private void ObtenerListado(Numero miPais)
         {
-            Lista = Lista + " " + miPais.PaisID + " : " + miPais.PaisID + " |";
+            Lista = Lista + " " + miPais.numero + " : " + miPais.numero + " |";
         }
     }
 }
